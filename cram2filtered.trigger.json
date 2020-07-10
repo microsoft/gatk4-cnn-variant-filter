@@ -1,0 +1,6 @@
+{
+  "WorkflowUrl": "https://raw.githubusercontent.com/microsoft/gatk4-cnn-variant-filter-azure/az1.2.0/cram2filtered.wdl",
+  "WorkflowInputsUrl": "https://raw.githubusercontent.com/microsoft/gatk4-cnn-variant-filter-azure/az1.2.0/cram2filtered.inputs.json", 
+  "WorkflowOptionsUrl": null,
+  "WorkflowDependenciesUrl": null
+}
