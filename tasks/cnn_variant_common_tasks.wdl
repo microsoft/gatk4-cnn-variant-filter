@@ -57,11 +57,10 @@ command <<<
   runtime {
     docker: "${gatk_docker}"
     memory: machine_mem + " MB"
-    disks: "local-disk " + select_first([disk_space_gb, default_disk_space_gb]) + " HDD"
-    preemptible: select_first([preemptible_attempts, 3])
+    disk: select_first([disk_space_gb, default_disk_space_gb]) + " GB"
+    preemptible: true
+    maxRetries: select_first([preemptible_attempts, 3])
     cpu: select_first([cpu, 1])
-    zones: "us-central1-b" # Needs to be a zone that guarantees CPUs with AVX see (https://cloud.google.com/compute/docs/regions-zones/)
-    bootDiskSizeGb: "16"
   }
 
   output {
@@ -119,11 +118,10 @@ task RunHC4 {
     runtime {
         docker: "${gatk_docker}"
         memory: machine_mem + " MB"
-        # Note that the space before SSD and HDD should be included.
-        disks: "local-disk " + sub(disk_space_gb, "\\..*", "") + " HDD"
-        preemptible: select_first([preemptible_attempts, 3])
+        disk: sub(disk_space_gb, "\\..*", "") + " GB"
+        preemptible: true
+        maxRetries: select_first([preemptible_attempts, 3])
         cpu: select_first([cpu, 1])
-        bootDiskSizeGb: "16"
     }
 }
 
@@ -176,11 +174,10 @@ command <<<
   runtime {
     docker: "${gatk_docker}"
     memory: machine_mem + " MB"
-    # Note that the space before HDD and HDD should be included.
-    disks: "local-disk " + select_first([disk_space_gb, default_disk_space_gb]) + " HDD"
-    preemptible: select_first([preemptible_attempts, 3])
+    disk: select_first([disk_space_gb, default_disk_space_gb]) + " GB"
+    preemptible: true
+    maxRetries: select_first([preemptible_attempts, 3])
     cpu: select_first([cpu, 1])
-    bootDiskSizeGb: "16"
   }
 
   output {
@@ -227,10 +224,10 @@ task SplitIntervals {
     runtime {
         docker: "${gatk_docker}"
         memory: machine_mem + " MB"
-        disks: "local-disk " + select_first([disk_space, 100]) + " HDD"
-        preemptible: select_first([preemptible_attempts, 10])
+        disk: select_first([disk_space, 100]) + " GB"
+        preemptible: true
+        maxRetries: select_first([preemptible_attempts, 10])
         cpu: select_first([cpu, 1])
-        bootDiskSizeGb: "16"
     }
 
     output {
@@ -269,11 +266,11 @@ task MergeVCFs {
     runtime {
         docker: "${gatk_docker}"
         memory: machine_mem + " MB"
-        disks: "local-disk " + select_first([disk_space_gb, default_disk_space_gb]) + " HDD"
-        preemptible: select_first([preemptible_attempts, 10])
+        disk: select_first([disk_space_gb, default_disk_space_gb]) + " GB"
+        preemptible: true
+        maxRetries: select_first([preemptible_attempts, 10])
         cpu: select_first([cpu, 1])
-        bootDiskSizeGb: "16"
-    }
+   }
 
     output {
         File merged_vcf = "${output_vcf}"
@@ -322,10 +319,9 @@ command <<<
   runtime {
     docker: "broadinstitute/genomes-in-the-cloud:2.1.1"
     memory: machine_mem + " MB"
-
-    # Note that the space before SSD and HDD should be included.
-    disks: "local-disk " + disk_space_gb + " HDD"
-    preemptible: select_first([preemptible_attempts, 3])
+    disk: disk_space_gb + " GB"
+    preemptible: true
+    maxRetries: select_first([preemptible_attempts, 3])
     cpu: select_first([cpu, 1])
   }
 
@@ -352,6 +348,6 @@ task SamtoolsMergeBAMs {
   runtime {
     docker: "broadinstitute/genomes-in-the-cloud:2.1.1"
     memory: "16 GB"
-    disks: "local-disk " + disk_space_gb + " HDD"
+    disk: disk_space_gb + " GB"
   }
 }

@@ -12,7 +12,7 @@
 
 #import "cnn_variant_common_tasks.wdl" as CNNTasks
 
-import "https://raw.githubusercontent.com/gatk-workflows/gatk4-cnn-variant-filter/1.2.0/tasks/cnn_variant_common_tasks.wdl" as CNNTasks
+import "https://raw.githubusercontent.com/microsoft/gatk4-cnn-variant-filter-azure/az1.2.0/tasks/cnn_variant_common_tasks.wdl" as CNNTasks
 
 workflow Cram2FilteredVcf {
     File input_file                  # Aligned CRAM file or Aligned BAM files
@@ -117,7 +117,7 @@ workflow Cram2FilteredVcf {
                 gatk_docker = gatk_docker,
                 preemptible_attempts = preemptible_attempts,
                 mem_gb = mem_gb,
-                disk_space_gb = round((bam_size/scatter_count) + ref_size + additional_disk)
+                disk_space_gb = round((bam_size) + ref_size + additional_disk)
         }
     }
 
