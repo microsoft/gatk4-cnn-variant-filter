@@ -6,20 +6,10 @@ This repository is a fork from [the original](https://github.com/gatk-workflows/
 
 Please read the following discussion to learn more about the CNN tool: [Deep Learning in GATK4](https://gatkforums.broadinstitute.org/gatk/discussion/10996/deep-learning-in-gatk4).<br/>
 
-Here, you can find the WDL file and an example inputs JSON file with links to data hosted on a public Azure Storage account. You can use the "msgenpublicdata" storage account directly as a relative path, like in the inputs JSON files.
+Here, you can find the WDL file and an example inputs JSON file with links to data hosted on a public Azure Storage account. You can use the "datasettestinputs" storage account directly as a relative path, like in the inputs JSON files.
 
 The `cram2filtered.trigger.json` trigger file is ready to use. You can start the workflow on your instance of Cromwell on Azure, using [these instructions](https://github.com/microsoft/CromwellOnAzure/blob/master/docs/managing-your-workflow.md/#Start-your-workflow).
 
-### Host tutorial data on your Azure Storage account
-If you prefer to host this data on your own storage account, you can use [AzCopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-blobs#copy-a-container-to-another-storage-account) to transfer the entire directory `cnn-sample` in the blob container `inputs` with the required files to your own storage account [using a shared access signature](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview) with `"Read"` and `"Write"` access. You may consider using [Azure Storage Explorer](https://docs.microsoft.com/en-us/azure/vs-azure-tools-storage-manage-with-storage-explorer?tabs=windows#generate-a-shared-access-signature-in-storage-explorer) to create the SAS URL to your storage account container using a UI. <br/>
-
-```
-.\azcopy.exe copy 'https://msgenpublicdata.blob.core.windows.net:443/inputs/cnn-sample?sv=2015-04-05&sr=c&si=coa&sig=pENt%2FMMOj24uoNBZIPLa%2BNVVkvopcFK51rwADyYLEPE%3D' 'https://<destination-storage-account-name>.blob.core.windows.net/inputs?<WriteSAS-token>' --recursive --s2s-preserve-access-tier=false
-```
-
-Replace all instances of `/msgenpublicdata/inputs/cnn-sample` with your `/destination-storage-account-name/inputs/cnn-sample` in the inputs JSON file. Ensure that this destination storage account is mounted to the Cromwell on Azure VM following [these steps](https://github.com/microsoft/CromwellOnAzure/blob/master/docs/troubleshooting-guide.md/#Use-input-data-files-from-an-existing-Storage-account-that-my-lab-or-team-is-currently-using).
-
-The `cram2filtered.trigger.json` file is an example. Substitute the "WorkflowInputsUrl" with the http link to your inputs JSON file hosted on your Storage account (with SAS token) or a raw URL to the file on a public GitHub repo.
 
 ## gatk4-cnn-variant-filter
 
